@@ -27,6 +27,31 @@ class DonorActions{
             })
         }
     }
+    static loadStoreAfterPageRefresh(){
+        return (dispatch)=>{
+                databaseRef.once('value', dataSnapshot=>{
+                    let data = dataSnapshot.val(),
+                        dataKeysArray = Object.keys(data);
+                    dataKeysArray.map(eachprop=>{
+                        console.log(eachprop);
+                        let obj = {
+                            name : data[eachprop].name,
+                            email : data[eachprop].email,
+                            contact: data[eachprop].contact,
+                            bloodGroup: data[eachprop].bloodGroup
+                        }
+                        dispatch(DonorActions.loadStore(obj));
+                    })
+
+                })
+            }
+        }
+        static loadStore(obj){
+            return{
+                type: actionTypes.LOAD_STORE,
+                obj
+            }
+        }
     static usersData(obj){
         return{
             type: actionTypes.STORE_USERS_DATA,

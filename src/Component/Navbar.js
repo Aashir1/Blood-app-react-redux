@@ -53,7 +53,7 @@ class DrawerUndockedExample extends React.Component {
         <AppBar
           className={`nav`}
           style={{backgroundColor:'#ec543f'}}
-          title="boilerplate"
+          title="Blood Donor App"
           iconClassNameRight="muidocs-icon-navigation-expand-more"
           onLeftIconButtonClick={this.handleToggle}
         />

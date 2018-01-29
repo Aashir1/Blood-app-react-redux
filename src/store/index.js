@@ -5,6 +5,7 @@ import applicationReducers from './reducers/signupReducer';
 import applicationSignInReducer from './reducers/loginReducer';
 import applicationLogoutReducer from './reducers/logoutReducer';
 import donorReducer from './reducers/donorReducer';
+import neederReducer from './reducers/neederReducer';
 let reducers = combineReducers({
     applicationReducers,
     applicationSignInReducer,
