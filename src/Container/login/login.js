@@ -10,18 +10,11 @@ import { loginRequestAsync, loginErrorAlert } from '../../store/action/login';
 import CircularProgress from 'material-ui/CircularProgress';
 import ErrorAlert from '../../Component/errorAlert';
 const style = {
-    paper: {
-        height: '100%',
-        width: '100%',
-        margin: '0 auto',
-        textAlign: 'center',
-        display: 'inline-block',
-        padding: '40px'
-    },
     paperWapper: {
         width: '70%',
-        margin: '0 auto',
-        marginTop: 100
+        margin: '100px auto 0px',
+        border: '5px solid darkgray',
+        padding: '20px'
 
     },
     textStyle: {
@@ -50,7 +43,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         signInUser: (dataObj) => dispatch(loginRequestAsync(dataObj)),
-        closeAlert : () => dispatch(loginErrorAlert())
+        closeAlert: () => dispatch(loginErrorAlert())
     }
 }
 class Login extends React.Component {
@@ -78,7 +71,7 @@ class Login extends React.Component {
         }
         this.props.signInUser(obj);
     }
-    dispatchClose = () =>{
+    dispatchClose = () => {
         this.props.closeAlert();
     }
     render() {
@@ -93,7 +86,7 @@ class Login extends React.Component {
                     )
                         :
                         <div style={style.paperWapper}>
-                            <Paper style={style.paper} zDepth={3} >
+                            <div>
                                 <h1 style={style.heading}>Login</h1>
                                 <TextField
                                     onChange={(event) => { this.updateValue(event, 'email') }}
@@ -113,7 +106,7 @@ class Login extends React.Component {
                                 /><br />
                                 <RaisedButton onClick={this.signIn} label="Login" primary={true} style={style.button} />
                                 <RaisedButton onClick={this.register} label="Register" primary={true} style={style.button} />
-                            </Paper>
+                            </div>
                         </div>
                 }
             </div>

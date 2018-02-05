@@ -65,7 +65,8 @@ class Donor extends React.Component {
         console.log(obj);
         if(obj.name.trim() !== '' && obj.email.trim() !== '' && obj.contact.trim() !== '' ){
             this.props.sendData(obj);
-            this.setState({name: '', email:'', contact: ''})
+            this.setState({name: '', email:'', contact: ''});
+            browserHistory.push('/bloodneed');
         }
         else{
             alert('form badly formated');

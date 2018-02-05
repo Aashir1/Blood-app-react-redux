@@ -32,11 +32,7 @@ class Home extends React.Component {
 
     }
     navigateToDonor = () =>{
-        console.log(this.state.isUser)
-        if(this.state.isUser)
         browserHistory.push('/donateblood');
-        else
-        browserHistory.push('/login');        
     }
     navigateToNeed = () =>{
         browserHistory.push('/bloodneed');        

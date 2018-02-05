@@ -7,7 +7,7 @@ export function loginRequestAsync(loginObj){
         dispatch(loginRequest());
         dbConfig.auth().signInWithEmailAndPassword(loginObj.email, loginObj.password)
         .then(user=>{
-            browserHistory.push('/');
+            browserHistory.push('/home');
             let obj={
                 name: user.displayName,
                 uid: user.uid,
