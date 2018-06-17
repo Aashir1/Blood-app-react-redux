@@ -7,9 +7,9 @@ import './home.css';
 import RaisedButton from 'material-ui/RaisedButton';
 import { browserHistory } from 'react-router';
 
-const style ={
-    btn:{
-        backgroundColor:'#ee6b56 !important',
+const style = {
+    btn: {
+        backgroundColor: '#ee6b56 !important',
     }
 }
 
@@ -28,14 +28,39 @@ class Home extends React.Component {
             } else {
                 this.state.isUser = false;
             }
-        })
+        });
+    }
 
+    navigateToDonor = () => {
+        if (this.props.currentUser.hasOwnProperty("email") || this.props.signupCurrUser.hasOwnProperty("email")) {
+            console.log(this.props.currentUser.hasOwnProperty("email"));
+            browserHistory.push('/donateblood');
+        } else {
+            // console.log(this.props.currentUser.typeof === null)
+            // console.log(this.isEmpty(this.props.currentUser));
+            console.log(this.props.currentUser);
+            console.log(this.props.currentUser.hasOwnProperty("uid"));
+            browserHistory.push('/login');
+        }
     }
-    navigateToDonor = () =>{
-        browserHistory.push('/donateblood');
+
+    isEmpty(obj) {
+        for (var key in obj) {
+            if (obj.hasOwnProperty(key))
+                return false;
+        }
+        return true;
     }
-    navigateToNeed = () =>{
-        browserHistory.push('/bloodneed');        
+
+    navigateToNeed = () => {
+        // browserHistory.push('/bloodneed');        
+        if (this.props.currentUser.hasOwnProperty("email") || this.props.signupCurrUser.hasOwnProperty("email") ) {
+            console.log(this.props.currentUser.typeof);
+            browserHistory.push('/bloodneed');
+        } else {
+            console.log(this.props.currentUser.typeof !== undefined)
+            browserHistory.push('/login');
+        }
     }
 
     render() {
@@ -59,7 +84,7 @@ class Home extends React.Component {
                     </p>
                 </div>
                 <div className={`button-wrapper`}>
-                    <RaisedButton className={`btn`} onClick={this.navigateToDonor} label="Donate Blood" secondary={true} style={style.btn}/>
+                    <RaisedButton className={`btn`} onClick={this.navigateToDonor} label="Donate Blood" secondary={true} style={style.btn} />
                     <RaisedButton className={`btn`} onClick={this.navigateToNeed} label="Blood Need" secondary={true} />
                 </div>
 
@@ -72,8 +97,22 @@ class Home extends React.Component {
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
 
 function mapStateToProps(state) {
+    dbConfig.auth().onAuthStateChanged(user => {
+        if (user) {
+            if (!state.applicationSignInReducer.currentUser.hasOwnProperty('email')) {
+                let obj = JSON.parse(localStorage.getItem('state'))
+                if (obj !== null) {
+                    state = obj;
+                }
+            }
+        } else {
+
+        }
+    })
     return {
-        currentUser: state.applicationLogoutReducer.currentUser
+        currentUser: state.applicationSignInReducer.currentUser,
+        signupCurrUser: state.applicationReducers.currentUser,
+
     }
 }
 function mapDispatchToProps(dispatch) {

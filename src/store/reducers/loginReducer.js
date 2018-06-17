@@ -1,4 +1,5 @@
 import actionTypes from '../action/actionTypes';
+import Storage from '../localStorage';
 let initialState = {
     currentUser: {},
     isProgress: false,
@@ -9,7 +10,6 @@ function applicationSignInReducer(state = initialState, action) {
     switch (action.type) {
 
         case actionTypes.LOGIN_SUCCEED:
-            console.log('login ka action', action);
             return Object.assign({}, state, { currentUser: action.data, isProgress: false });
 
         case actionTypes.LOGIN_PROGRESS:
@@ -20,6 +20,15 @@ function applicationSignInReducer(state = initialState, action) {
 
         case actionTypes.LOGIN_ERROR_ALERT:
             return Object.assign({}, state, { isError: false, errorText: '', isProgress: false })
+
+        case actionTypes.LOGOUT_SUCCEED:
+            console.log('when logout', Object.assign({}, state, { currentUser: {} }));
+            Storage.setState(Object.assign({}, state, { currentUser: {} }));
+            return Object.assign({}, state, { currentUser: {} });
+
+
+        case 'SAVE_STORE_STATE':
+            return Object.assign({}, action.state);
 
         default:
             return state;

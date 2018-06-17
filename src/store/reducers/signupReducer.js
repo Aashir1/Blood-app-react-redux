@@ -6,7 +6,7 @@ let initialState = {
     errorText: ''
 }
 function applicationReducers(state = initialState, action) {
-    
+
     switch (action.type) {
         case actionTypes.SIGNUP_SUCCEED:
             return Object.assign({}, state, { currentUser: action.data, isProgress: false });
@@ -15,7 +15,7 @@ function applicationReducers(state = initialState, action) {
         case actionTypes.SIGNUP_ERROR:
             return Object.assign({}, state, { isError: true, errorText: action.error });
         case actionTypes.SIGNUP_ERROR_ALERT:
-            return Object.assign({}, state, {isError: false, errorText: '',isProgress: false})
+            return Object.assign({}, state, { isError: false, errorText: '', isProgress: false })
         default:
             return state;
     }

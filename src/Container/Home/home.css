@@ -42,7 +42,7 @@ height: 100vh;
 .button-wrapper{
     width: 40vw;
     text-align: center;
-    margin: 90px auto 0 auto !important;
+    margin: 60px auto 0 auto !important;
 }
 .btn button{
     background-color:#ec543f !important;

@@ -54,6 +54,7 @@ class Login extends React.Component {
             email: '',
             password: ''
         }
+        console.log(this.props);
     }
     register = () => {
         browserHistory.push('/signup');
@@ -69,7 +70,20 @@ class Login extends React.Component {
             email: this.state.email,
             password: this.state.password
         }
-        this.props.signInUser(obj);
+        if (obj.email.trim() !== "" & obj.password.trim() !== "") {
+            this.props.signInUser(obj);
+        }
+    }
+    keyPress = (e) => {
+        if (e.key === "Enter") {
+            let obj = {
+                email: this.state.email,
+                password: this.state.password
+            }
+            if (obj.email.trim() !== "" & obj.password.trim() !== "") {
+                this.props.signInUser(obj);
+            }
+        }
     }
     dispatchClose = () => {
         this.props.closeAlert();
@@ -103,6 +117,7 @@ class Login extends React.Component {
                                     type='password'
                                     hintText=""
                                     floatingLabelText="Password"
+                                    onKeyPress={this.keyPress}
                                 /><br />
                                 <RaisedButton onClick={this.signIn} label="Login" primary={true} style={style.button} />
                                 <RaisedButton onClick={this.register} label="Register" primary={true} style={style.button} />

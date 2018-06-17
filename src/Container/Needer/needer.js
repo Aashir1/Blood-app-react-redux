@@ -48,7 +48,7 @@ class Needer extends React.Component {
                 "O+",
                 "O-"
             ],
-            availableBloodGroups:[]
+            availableBloodGroups: []
         }
         dbConfig.auth().onAuthStateChanged(user => {
             if (user) {
@@ -60,17 +60,17 @@ class Needer extends React.Component {
 
     }
 
-    componentDidMount(){
+    componentDidMount() {
         console.log('from component will Mount: ', this.props.allUsers);
-        if(this.props.allUsers.length < 1){
+        if (this.props.allUsers.length < 1) {
             console.log('if chala')
-            this.props.loadStoreAfterRefresh();
-        }        
-        
+            this.props.loadStoreAfterRefresh(this.props.currentUser);
+        }
+
     }
 
     handleChange = (event, index, value) => {
-        
+
 
         console.log(this.state.availableBloodGroups);
         console.log(`index: ${index}`);
@@ -82,121 +82,121 @@ class Needer extends React.Component {
                     for (let i = 0; i < this.props.allUsers.length; i++) {
                         if (this.props.allUsers[i].bloodGroup === 'A-' || this.props.allUsers[i].bloodGroup === 'O-' || this.props.allUsers[i].bloodGroup === 'A+') {
                             // this.setState({availableBloodGroups: [...this.state.availableBloodGroups, this.props.allUsers[i]]});
-                            
+
                             array.push(this.props.allUsers[i]);
-                  
+
                         }
                     }
-                    this.setState({availableBloodGroups: array});
+                    this.setState({ availableBloodGroups: array });
                     break;
                 }
             case 'O+':
                 {
                     let array = [];
-                    
+
 
                     for (let i = 0; i < this.props.allUsers.length; i++) {
                         if (this.props.allUsers[i].bloodGroup === 'O-' || this.props.allUsers[i].bloodGroup === 'O+') {
-                                array.push(this.props.allUsers[i]);
-                            
+                            array.push(this.props.allUsers[i]);
+
                             // this.setState({availableBloodGroups: [...this.state.availableBloodGroups, this.props.allUsers[i]]});
-                            
+
                         }
                     }
-                    this.setState({availableBloodGroups: array});
+                    this.setState({ availableBloodGroups: array });
                     break;
                 }
             case 'B+':
                 {
                     let array = [];
-                    
+
 
                     for (let i = 0; i < this.props.allUsers.length; i++) {
                         if (this.props.allUsers[i].bloodGroup === 'O+' || this.props.allUsers[i].bloodGroup === 'O-' || this.props.allUsers[i].bloodGroup === 'B+' || this.props.allUsers[i].bloodGroup === 'B-') {
-                                array.push(this.props.allUsers[i]);
-                            
+                            array.push(this.props.allUsers[i]);
+
                             // this.setState({availableBloodGroups: [...this.state.availableBloodGroups, this.props.allUsers[i]]});
-                            
+
                         }
                     }
-                    this.setState({availableBloodGroups: array});
+                    this.setState({ availableBloodGroups: array });
                     break;
                 }
             case 'AB+':
                 {
                     let array = [];
-                    
+
 
                     for (let i = 0; i < this.props.allUsers.length; i++) {
                         if (this.props.allUsers[i].bloodGroup === 'O+' || this.props.allUsers[i].bloodGroup === 'A+' || this.props.allUsers[i].bloodGroup === 'B+' || this.props.allUsers[i].bloodGroup === 'AB+' || this.props.allUsers[i].bloodGroup === 'O-' || this.props.allUsers[i].bloodGroup === 'A-' || this.props.allUsers[i].bloodGroup === 'B-' || this.props.allUsers[i].bloodGroup === 'AB-') {
-                                array.push(this.props.allUsers[i]);
-                            
+                            array.push(this.props.allUsers[i]);
+
                             // this.setState({availableBloodGroups: [...this.state.availableBloodGroups, this.props.allUsers[i]]});
-                            
+
                         }
                     }
-                    this.setState({availableBloodGroups: array});
+                    this.setState({ availableBloodGroups: array });
                     break;
                 }
             case 'A-':
                 {
                     let array = [];
-                    
+
 
                     for (let i = 0; i < this.props.allUsers.length; i++) {
                         if (this.props.allUsers[i].bloodGroup === 'A-' || this.props.allUsers[i].bloodGroup === 'O-') {
-                                array.push(this.props.allUsers[i]);
-                            
+                            array.push(this.props.allUsers[i]);
+
                             // this.setState({availableBloodGroups: [...this.state.availableBloodGroups, this.props.allUsers[i]]});
-                            
+
                         }
                     }
-                    this.setState({availableBloodGroups: array});
+                    this.setState({ availableBloodGroups: array });
                     break;
                 }
             case 'O-':
                 {
                     let array = [];
-                    
+
 
                     for (let i = 0; i < this.props.allUsers.length; i++) {
                         if (this.props.allUsers[i].bloodGroup === 'O-') {
-                                array.push(this.props.allUsers[i]);
-                            
+                            array.push(this.props.allUsers[i]);
+
                             // this.setState({availableBloodGroups: [...this.state.availableBloodGroups, this.props.allUsers[i]]});
-                            
+
                         }
                     }
-                    this.setState({availableBloodGroups: array});
+                    this.setState({ availableBloodGroups: array });
                     break;
                 }
             case 'B-':
                 {
                     let array = [];
-                    
+
 
                     for (let i = 0; i < this.props.allUsers.length; i++) {
                         if (this.props.allUsers[i].bloodGroup === 'O-' || this.props.allUsers[i].bloodGroup === 'B-') {
-                                array.push(this.props.allUsers[i]);
-                            
+                            array.push(this.props.allUsers[i]);
+
                             // this.setState({availableBloodGroups: [...this.state.availableBloodGroups, this.props.allUsers[i]]});
-                            
+
                         }
                     }
-                    this.setState({availableBloodGroups: array});
+                    this.setState({ availableBloodGroups: array });
                     break;
                 }
             case 'AB-':
                 {
                     let array = [];
-                    this.setState({availableBloodGroups:array},()=>console.log(this.state));
+                    this.setState({ availableBloodGroups: array }, () => console.log(this.state));
                     for (let i = 0; i < this.props.allUsers.length; i++) {
                         if (this.props.allUsers[i].bloodGroup === 'O-' || this.props.allUsers[i].bloodGroup === 'A-' || this.props.allUsers[i].bloodGroup === 'AB-' || this.props.allUsers[i].bloodGroup === 'B-') {
                             // this.setState({availableBloodGroups: [...this.state.availableBloodGroups, this.props.allUsers[i]]});
-                            
+
                         }
                     }
-                    this.setState({availableBloodGroups: array});
+                    this.setState({ availableBloodGroups: array });
                     break;
                 }
         }
@@ -245,12 +245,12 @@ class Needer extends React.Component {
                         </TableRow>
                     </TableHeader>
                     <TableBody
-                    displayRowCheckbox={false}>
+                        displayRowCheckbox={false}>
                         {
                             this.state.availableBloodGroups.map(eachObj => {
                                 return (
                                     <TableRow key={eachObj.contact}
-                                        >
+                                    >
                                         <TableRowColumn>{eachObj.name}</TableRowColumn>
                                         <TableRowColumn>{eachObj.email}</TableRowColumn>
                                         <TableRowColumn>{eachObj.bloodGroup}</TableRowColumn>
@@ -273,13 +273,17 @@ class Needer extends React.Component {
 export default connect(mapStateToProps, mapDispatchToProps)(Needer);
 
 function mapStateToProps(state) {
+    // if (!state.applicationSignInReducer.currentUser.hasOwnProperty('email')) {
+    //     state = JSON.parse(localStorage.getItem('state'));
+    // }
     return {
-        allUsers: state.donorReducer.usersData
+        allUsers: state.donorReducer.usersData,
+        currentUser: state.applicationSignInReducer.currentUser
     }
 }
 function mapDispatchToProps(dispatch) {
     return {
         sendData: (dataObj) => dispatch(DonorActions.sendDonorData(dataObj)),
-        loadStoreAfterRefresh : () => dispatch(DonorActions.loadStoreAfterPageRefresh()),
+        loadStoreAfterRefresh: (userData) => dispatch(DonorActions.loadStoreAfterPageRefresh(userData)),
     }
 }

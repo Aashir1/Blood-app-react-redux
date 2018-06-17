@@ -6,7 +6,7 @@ import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import { browserHistory } from 'react-router';
 import { logoutRequestAsync } from '../store/action/logout';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 function mapStateToProps(state) {
   return {
@@ -36,14 +36,22 @@ class DrawerUndockedExample extends React.Component {
     })
   }
   signOut = () => {
-    this.props.signOutUser()
+    this.props.signOutUser();
+    this.setState({ open: !this.state.open });
   }
 
   handleToggle = () => this.setState({ open: !this.state.open });
 
   changeURL = (page) => {
-    browserHistory.push(`/${page}`);
-    this.setState({ open: !this.state.open })
+    if(page === "") browserHistory.push(`/${page}`)
+    else if (this.props.currentUser.typeof !== undefined) {
+      browserHistory.push(`/${page}`);
+      this.setState({ open: !this.state.open },()=>{
+        console.log(this.state);
+      })
+    } else {
+      browserHistory.push('/login');
+    }
 
   }
 
@@ -52,7 +60,7 @@ class DrawerUndockedExample extends React.Component {
       <div>
         <AppBar
           className={`nav`}
-          style={{backgroundColor:'#ec543f'}}
+          style={{ backgroundColor: '#ec543f' }}
           title="Blood Donor App"
           iconClassNameRight="muidocs-icon-navigation-expand-more"
           onLeftIconButtonClick={this.handleToggle}
@@ -63,10 +71,10 @@ class DrawerUndockedExample extends React.Component {
           open={this.state.open}
           onRequestChange={(open) => this.setState({ open })}
         >
-          <MenuItem onClick={()=>{this.changeURL('bloodneed')}}>Blood Need</MenuItem>
-          <MenuItem onClick={()=>{this.changeURL('donateblood')}}>Blood Donor</MenuItem>
-          <MenuItem onClick={()=>{this.changeURL('')}}>Home</MenuItem>
-          
+          <MenuItem onClick={() => { this.changeURL('bloodneed') }}>Blood Need</MenuItem>
+          <MenuItem onClick={() => { this.changeURL('donateblood') }}>Blood Donor</MenuItem>
+          <MenuItem onClick={() => { this.changeURL('') }}>Home</MenuItem>
+
           {
             this.state.status ?
               <MenuItem onClick={this.signOut}>Logout</MenuItem>

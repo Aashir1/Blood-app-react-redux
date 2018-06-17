@@ -8,8 +8,7 @@ export function signUpRequestAsync(SignupObj) {
         dispatch(signUpRequest());
         dbConfig.auth().createUserWithEmailAndPassword(SignupObj.email, SignupObj.password)
             .then(user => {
-                console.log('created user', user)
-                browserHistory.push('/home');
+                browserHistory.push('/');
                 return user.updateProfile({
                     displayName: SignupObj.name,
                 })
@@ -20,17 +19,14 @@ export function signUpRequestAsync(SignupObj) {
                             uid: user.uid,
                             email: user.email
                         }
-                        dbConfig.database().ref('/').child(`/${user.uid}`).set(obj)
+                        dbConfig.database().ref(`bloodApp/${user.uid}`).set(obj)
                         dispatch(signUpSucceed(obj));
                     })
             })
             .catch((error) => {
                 dispatch(signUpError(error.message));
                 browserHistory.push('/signup');
-                // alert(error.message);
-            })
-
-
+            });
     }
 }
 

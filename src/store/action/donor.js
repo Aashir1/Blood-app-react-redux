@@ -2,13 +2,14 @@ import actionTypes from './actionTypes';
 import dbConfig from './firebaseConfig';
 import {browserHistory} from 'react-router';
 const databaseRef = dbConfig.database().ref('/bloodApp');
+
 class DonorActions{
     static sendDonorData(data){
         console.log(data);
         return (dispatch)=>{
-            databaseRef.push(data)
+            dbConfig.database().ref(`/bloodApp/${data.uid}`).set(data)
             .then(dataSnapshot =>{
-                databaseRef.once('value', snapShot =>{
+                dbConfig.database().ref(`/bloodApp`).once('value', snapShot =>{
                     let data = snapShot.val(),
                         dataKeys = Object.keys(data);
                         dataKeys.map(eachKey=>{
@@ -18,30 +19,34 @@ class DonorActions{
                                 contact: data[eachKey].contact,
                                 bloodGroup: data[eachKey].bloodGroup
                             }
-                            dispatch(DonorActions.usersData(obj));
-                        })
-                })
+                            // console.log('user data dispatch')
+                            // dispatch(DonorActions.usersData(obj));
+                        });
+                });
             })
             .catch(error =>{
                 alert(error.message);
             })
         }
     }
-    static loadStoreAfterPageRefresh(){
+    static loadStoreAfterPageRefresh(data){
         return (dispatch)=>{
-                databaseRef.once('value', dataSnapshot=>{
-                    let data = dataSnapshot.val(),
-                        dataKeysArray = Object.keys(data);
-                    dataKeysArray.map(eachprop=>{
-                        console.log(eachprop);
-                        let obj = {
-                            name : data[eachprop].name,
-                            email : data[eachprop].email,
-                            contact: data[eachprop].contact,
-                            bloodGroup: data[eachprop].bloodGroup
-                        }
-                        dispatch(DonorActions.loadStore(obj));
-                    })
+            dbConfig.database().ref(`/bloodApp`).once('value', dataSnapshot=>{
+                    if(dataSnapshot.val() !== null){
+                        let data = dataSnapshot.val(),
+                            dataKeysArray = Object.keys(data);
+                        dataKeysArray.map(eachprop=>{
+                            console.log(eachprop);
+                            let obj = {
+                                name : data[eachprop].name,
+                                email : data[eachprop].email,
+                                contact: data[eachprop].contact,
+                                bloodGroup: data[eachprop].bloodGroup
+                            }
+                            console.log('load store dispatch')
+                            dispatch(DonorActions.loadStore(obj));
+                        });
+                    }
 
                 })
             }

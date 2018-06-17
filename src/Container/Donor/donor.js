@@ -10,6 +10,7 @@ import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import DonorActions from '../../store/action/donor';
+import LoadStoreState from '../../store/action/loadState';
 
 const style = {
     btn: {
@@ -47,33 +48,64 @@ class Donor extends React.Component {
             } else {
                 this.state.isUser = false;
             }
-        })
+        });
+        console.log('this.props.state: ', this.props.state);
+        // if (!this.props.state.applicationSignInReducer.currentUser.hasOwnProperty('email')) {
+        //     this.props.state = JSON.parse(localStorage.getItem('state'));
+        // }
 
     }
+
+    // componentDidMount() {
+    //     window.addEventListener('beforeunload', this.componentCleanup);
+    //     // if(!this.props.state.currentUser.hasOwnProperty('email')){
+    //     console.log("component will mount");
+    //     let state = JSON.parse(localStorage.getItem('state'));
+    //     this.props.loadStoreState(state);
+    //     // }
+    // }
+
+    // componentWillUnmount() {
+    //     localStorage.setItem('state', JSON.stringify(this.props.state));
+    //     console.log("component will unmount");
+    //     alert("jhhjgjhgjhgjhg");
+    //     window.removeEventListener('beforeunload', this.componentCleanup);
+    // }
+    // componentCleanup = () => {
+    //     alert('component cleanup')
+    // }
+
+    // componentDidMount(){
+    //     localStorage.setItem('state', JSON.stringify(this.props.state));
+    //     console.log("component will unmount");
+    //     alert("jhhjgjhgjhgjhg")
+    // }
+
     handleChange = (event, index, value) => {
         console.log(`value: ${value}`);
         console.log(`index: ${index}`);
         this.setState({ value });
     }
-    submitForm = () =>{
+    submitForm = () => {
         const obj = {
-            name: this.state.name,
-            email:this.state.email,
+            name: this.props.currentUser.name,
+            email: this.props.currentUser.email,
             contact: this.state.contact,
-            bloodGroup: this.state.value
+            bloodGroup: this.state.value,
+            uid: this.props.currentUser.uid
         }
         console.log(obj);
-        if(obj.name.trim() !== '' && obj.email.trim() !== '' && obj.contact.trim() !== '' ){
+        if (this.props.currentUser.name.trim() !== '' && this.props.currentUser.email.trim() !== '' && obj.contact.trim() !== '') {
             this.props.sendData(obj);
-            this.setState({name: '', email:'', contact: ''});
+            this.setState({ name: '', email: '', contact: '' });
             browserHistory.push('/bloodneed');
         }
-        else{
+        else {
             alert('form badly formated');
         }
-        
+
     }
-    updateState = (type, event)=>{
+    updateState = (type, event) => {
         let obj = {};
         obj[type] = event.target.value;
         this.setState(obj);
@@ -85,30 +117,32 @@ class Donor extends React.Component {
                 <div className={`heading-wapper`}>
                     <img src={Image} alt={`bloodlogo`} className={`logo`} />
                     <h2 className={`heading`}>
-                        <span style={{ color: '#6b6b6b' }}>Blood</span>{'  '}
-                        <span style={{ color: '#ec543f' }}>Donation</span>
+                        <span style={{ color: '#6b6b6b' }}>Share</span>{'  '}
+                        <span style={{ color: '#ec543f' }}>Blood</span>
                         <br />
-                        <span className={`heading-smalltext`}>Save Human Life.</span>
+                        <span className={`heading-smalltext`}>Donate Blood Donate Life.</span>
                     </h2>
                 </div>
                 <div className={`form-wrapper`}>
                     <div className={`form`}>
                         <TextField
-                            onChange = {(e)=>{this.updateState('name',e)}}
-                            value={this.state.name}
+                            disabled={true}
+                            onChange={(e) => { this.updateState('name', e) }}
+                            value={this.props.currentUser.name}
                             type='text'
                             underlineFocusStyle={{ borderBottom: '2px solid #ec543f' }}
                             hintText="Name"
                         /><br />
                         <TextField
-                            onChange = {(e)=>{this.updateState('email',e)}}                            
-                            value={this.state.email}
+                            disabled={true}
+                            onChange={(e) => { this.updateState('email', e) }}
+                            value={this.props.currentUser.email}
                             type='email'
                             underlineFocusStyle={{ borderBottom: '2px solid #ec543f' }}
                             hintText="Email"
                         /><br />
                         <TextField
-                            onChange = {(e)=>{this.updateState('contact',e)}}                            
+                            onChange={(e) => { this.updateState('contact', e) }}
                             value={this.state.number}
                             type='number'
                             underlineFocusStyle={{ borderBottom: '2px solid #ec543f' }}
@@ -119,21 +153,18 @@ class Donor extends React.Component {
                             value={this.state.value}
                             onChange={this.handleChange}
                         >
-                        {
-                            this.state.bloodGroup.map(data=>{
-                                return(
-                                    <MenuItem value={data} primaryText={data} key={data} />
-                                )
-                            })
-                        }
-                            
+                            {
+                                this.state.bloodGroup.map(data => {
+                                    return (
+                                        <MenuItem value={data} primaryText={data} key={data} />
+                                    )
+                                })
+                            }
+
                         </SelectField>
                         <RaisedButton className={`btn`} onClick={this.submitForm} label="Submit" secondary={true} />
                     </div>
                 </div>
-
-
-
             </div>
         );
     }
@@ -142,12 +173,18 @@ class Donor extends React.Component {
 export default connect(mapStateToProps, mapDispatchToProps)(Donor);
 
 function mapStateToProps(state) {
+    console.log(state);
+    // if (!state.applicationSignInReducer.currentUser.hasOwnProperty('email')) {
+    //     state = JSON.parse(localStorage.getItem('state'));
+    // }
     return {
-        currentUser: state.applicationLogoutReducer.currentUser
+        currentUser: state.applicationSignInReducer.currentUser,
+        state: state
     }
 }
 function mapDispatchToProps(dispatch) {
     return {
-        sendData: (dataObj) => dispatch(DonorActions.sendDonorData(dataObj))
+        sendData: (dataObj) => dispatch(DonorActions.sendDonorData(dataObj)),
+        loadStoreState: (data) => dispatch(LoadStoreState.loadStoreState(data))
     }
 }
